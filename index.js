@@ -30,65 +30,65 @@ client.connect((err) => {
     .db("infiniteTourism")
     .collection("touristSpots");
 
-  // app.post("/addBooking", (req, res) => {
-  //   const name = req.body.name;
-  //   const number = req.body.number;
-  //   const email = req.body.email;
-  //   const message = req.body.message;
-  //   const spot = req.body.spot;
-  //   const price = req.body.price;
-  //   const status = req.body.status;
-    
-  //   bookingCollection
-  //     .insertOne({ name, number, email, message, spot, price, status })
-  //     .then((result) => {
-  //       res.send(result.insertedCount > 0);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // });
+  app.post("/addBooking", (req, res) => {
+    const name = req.body.name;
+    const number = req.body.number;
+    const email = req.body.email;
+    const message = req.body.message;
+    const spot = req.body.spot;
+    const price = req.body.price;
+    const status = req.body.status;
 
-  // app.get("/bookings", (req, res) => {
-  //   bookingCollection.find({ email: req.query.email }).toArray((err, docs) => {
-  //     res.send(docs);
-  //   });
-  // });
+    bookingCollection
+      .insertOne({ name, number, email, message, spot, price, status })
+      .then((result) => {
+        res.send(result.insertedCount > 0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
-  // app.get("/allBookings", (req, res) => {
-  //   bookingCollection.find({}).toArray((err, docs) => res.send(docs));
-  // });
+  app.get("/bookings", (req, res) => {
+    bookingCollection.find({ email: req.query.email }).toArray((err, docs) => {
+      res.send(docs);
+    });
+  });
 
-  // app.patch("/update/:id", (req, res) => {
-  //   bookingCollection
-  //     .updateOne(
-  //       { _id: ObjectId(req.params.id) },
-  //       {
-  //         $set: { status: req.body.status },
-  //       }
-  //     )
-  //     .then((result) => res.send(result.modifiedCount > 0));
-  // });
+  app.get("/allBookings", (req, res) => {
+    bookingCollection.find({}).toArray((err, docs) => res.send(docs));
+  });
+
+  app.patch("/update/:id", (req, res) => {
+    bookingCollection
+      .updateOne(
+        { _id: ObjectId(req.params.id) },
+        {
+          $set: { status: req.body.status },
+        }
+      )
+      .then((result) => res.send(result.modifiedCount > 0));
+  });
 
   const spotCollection = client.db("infiniteTourism").collection("services");
 
-  // app.post("/addNewSpot", (req, res) => {
-  //   const file = req.files.file;
-  //   const title = req.body.title;
-  //   const price = req.body.price;
-  //   const location = req.body.places;
-  //   const bedroom = req.body.duration;
-  //   const bathroom = req.body.rating;
+  app.post("/addNewSpot", (req, res) => {
+    const file = req.files.file;
+    const title = req.body.title;
+    const price = req.body.price;
+    const location = req.body.places;
+    const bedroom = req.body.duration;
+    const bathroom = req.body.rating;
 
-  //   spotCollection
-  //     .insertOne({ title, price, places, duration, packageRating, image })
-  //     .then((result) => {
-  //       res.send(result.insertedCount > 0);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // });
+    spotCollection
+      .insertOne({ title, price, places, duration, packageRating, image })
+      .then((result) => {
+        res.send(result.insertedCount > 0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   app.get("/spots", (req, res) => {
     spotCollection.find({}).toArray((err, docs) => res.send(docs));
@@ -96,7 +96,7 @@ client.connect((err) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Infinite Tourism Server");
+  res.send("Dream world Server");
 });
 
 // app.listen(port, () => {
