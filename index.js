@@ -30,6 +30,7 @@ client.connect((err) => {
     .db("infiniteTourism")
     .collection("touristSpots");
 
+  //Add users booking
   app.post("/addBooking", (req, res) => {
     const name = req.body.name;
     const number = req.body.number;
@@ -49,12 +50,14 @@ client.connect((err) => {
       });
   });
 
+  //get single users booking
   app.get("/bookings", (req, res) => {
     bookingCollection.find({ email: req.query.email }).toArray((err, docs) => {
       res.send(docs);
     });
   });
 
+  //get all users booking
   app.get("/allBookings", (req, res) => {
     bookingCollection.find({}).toArray((err, docs) => res.send(docs));
   });
@@ -72,22 +75,14 @@ client.connect((err) => {
 
   const spotCollection = client.db("infiniteTourism").collection("services");
 
-  app.post("/addNewSpot", (req, res) => {
-    const file = req.files.file;
-    const title = req.body.title;
-    const price = req.body.price;
-    const location = req.body.places;
-    const bedroom = req.body.duration;
-    const bathroom = req.body.rating;
+  //Add new spot to the services
 
-    spotCollection
-      .insertOne({ title, price, places, duration, packageRating, image })
-      .then((result) => {
-        res.send(result.insertedCount > 0);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  app.post("/services", async (req, res) => {
+    const service = req.body;
+
+    const result = await spotCollection.insertOne(service);
+    console.log(result);
+    res.json(result);
   });
 
   app.get("/spots", (req, res) => {
