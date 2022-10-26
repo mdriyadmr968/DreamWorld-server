@@ -85,9 +85,21 @@ client.connect((err) => {
     res.json(result);
   });
 
+  //get all spots from database
   app.get("/spots", (req, res) => {
     spotCollection.find({}).toArray((err, docs) => res.send(docs));
   });
+});
+
+//delete a spot
+app.delete("/removeSpot/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: ObjectId(id) };
+  const result = await spotCollection.deleteOne(query);
+
+  console.log("deleting user with id ", result);
+
+  res.json(result);
 });
 
 app.get("/", (req, res) => {
